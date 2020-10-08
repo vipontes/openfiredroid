@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         val serviceName = JidCreate.domainBareFrom("192.168.0.17")
 
         val config: XMPPTCPConnectionConfiguration = XMPPTCPConnectionConfiguration.builder()
-            .setUsernameAndPassword("vinicius", "strike")
+            .setUsernameAndPassword("user1", "pass1234")
             .setPort(5222)
             .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
             .setXmppDomain(serviceName)
