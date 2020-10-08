@@ -5,10 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import br.net.easify.openfiredroid.R
+import org.jivesoftware.smack.AbstractXMPPConnection
+import org.jivesoftware.smack.ConnectionConfiguration
+import org.jivesoftware.smack.chat2.Chat
+import org.jivesoftware.smack.chat2.ChatManager
+import org.jivesoftware.smack.tcp.XMPPTCPConnection
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
+import org.jxmpp.jid.impl.JidCreate
+import java.net.InetAddress
+import javax.net.ssl.HostnameVerifier
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
+    private lateinit var  connection: AbstractXMPPConnection
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,5 +28,40 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.mainFragment)
 //        val action = LoginFragmentDirections.actionLogin()
 //        navController.navigate(action)
+
+        // https://stackoverflow.com/questions/43143359/error-on-smack-4-2-0-in-aaaa-yielded-an-error-response-nx-domain
+        val addr: InetAddress = InetAddress.getByName("192.168.0.17")
+        val verifier =
+            HostnameVerifier { hostname, session -> false }
+
+        val serviceName = JidCreate.domainBareFrom("192.168.0.17")
+
+        val config: XMPPTCPConnectionConfiguration = XMPPTCPConnectionConfiguration.builder()
+            .setUsernameAndPassword("vinicius", "strike")
+            .setPort(5222)
+            .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
+            .setXmppDomain(serviceName)
+            .setHostnameVerifier(verifier)
+            .setHostAddress(addr)
+            .setDebuggerEnabled(true)
+            .build()
+
+        connection = XMPPTCPConnection(config)
+        connection.connect()
+        connection.login()
+
+        if (connection.isConnected && connection.isAuthenticated) {
+            val chatManager: ChatManager = ChatManager.getInstanceFor(connection)
+            chatManager.addIncomingListener { from, message, chat -> println("New message from " + from + ": " + message.body) }
+            val jid = JidCreate.entityBareFrom("jsmith@jivesoftware.com")
+            val chat: Chat = chatManager.chatWith(jid)
+            chat.send("Howdy!")
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        connection.disconnect()
     }
 }

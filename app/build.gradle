@@ -90,8 +90,13 @@ dependencies {
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
+    // https://github.com/igniterealtime/Smack/wiki/Smack-4.2-Readme-and-Upgrade-Guide
+    // https://github.com/igniterealtime/Smack/blob/master/documentation/index.md
+    implementation "org.igniterealtime.smack:smack-java7:4.2.0"
+    implementation "org.igniterealtime.smack:smack-im:4.2.0"
     implementation "org.igniterealtime.smack:smack-tcp:4.2.0"
     implementation "org.igniterealtime.smack:smack-experimental:4.2.0"
+    implementation "org.igniterealtime.smack:smack-extensions:4.2.0"
     implementation ("org.igniterealtime.smack:smack-android:4.2.0") {
         exclude module: 'smack-omemo'
         exclude module: 'smack-omemo-signal'
