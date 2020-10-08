@@ -32,4 +32,6 @@ class ContactsFragment : Fragment() {
             Navigation.findNavController(it).navigate(action)
         }
     }
+
+
 }

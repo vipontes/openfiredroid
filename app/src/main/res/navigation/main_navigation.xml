@@ -13,9 +13,11 @@
         <action
             android:id="@+id/actionLogin"
             app:destination="@id/contactsFragment"
-            app:launchSingleTop="false"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:launchSingleTop="true"
             app:popUpTo="@+id/main_navigation"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"
@@ -24,10 +26,14 @@
         android:label="ContactsFragment" >
         <action
             android:id="@+id/actionViewMessage"
-            app:destination="@id/messageFragment" />
+            app:destination="@id/messageFragment"
+            app:enterAnim="@anim/slide_in_from_left"
+            app:exitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/actionViewProfile"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/slide_in_from_left"
+            app:exitAnim="@anim/slide_out_to_right" />
     </fragment>
     <fragment
         android:id="@+id/messageFragment"
@@ -37,8 +43,10 @@
         <action
             android:id="@+id/actionLeaveMessage"
             app:destination="@id/contactsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
             app:popUpTo="@+id/main_navigation"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -48,12 +56,17 @@
         <action
             android:id="@+id/actionLeaveProfile"
             app:destination="@id/contactsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
             app:popUpTo="@+id/main_navigation"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/actionLogout"
             app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_enter"
+            app:launchSingleTop="true"
             app:popUpTo="@+id/main_navigation"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
