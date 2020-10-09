@@ -92,15 +92,11 @@ dependencies {
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
-    implementation "org.igniterealtime.smack:smack-java7:4.2.0"
-    implementation "org.igniterealtime.smack:smack-im:4.2.0"
+
     implementation "org.igniterealtime.smack:smack-tcp:4.2.0"
     implementation "org.igniterealtime.smack:smack-experimental:4.2.0"
-    implementation "org.igniterealtime.smack:smack-extensions:4.2.0"
-    implementation ("org.igniterealtime.smack:smack-android:4.2.0") {
-        exclude module: 'smack-omemo'
-        exclude module: 'smack-omemo-signal'
-    }
+    implementation "org.igniterealtime.smack:smack-android-extensions:4.2.0"
+
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.28.2'

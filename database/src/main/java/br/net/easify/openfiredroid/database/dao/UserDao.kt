@@ -3,7 +3,6 @@ package br.net.easify.openfiredroid.database.dao
 import androidx.room.*
 import br.net.easify.openfiredroid.database.model.User
 
-
 @Dao
 interface UserDao {
 

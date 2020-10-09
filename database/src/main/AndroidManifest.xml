@@ -1,5 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.net.easify.openfiredroid.database">
-
-    /
-</manifest>
+    package="br.net.easify.openfiredroid.database" />

@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import br.net.easify.openfiredroid.R
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jivesoftware.smack.AbstractXMPPConnection
 import org.jivesoftware.smack.ConnectionConfiguration
+import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
@@ -29,6 +32,21 @@ class MainActivity : AppCompatActivity() {
 //        val action = LoginFragmentDirections.actionLogin()
 //        navController.navigate(action)
 
+        GlobalScope.launch {
+            setConnection()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        connection?.let {
+            it.disconnect()
+        }
+    }
+
+
+    fun setConnection() {
         val addr: InetAddress = InetAddress.getByName("192.168.0.17")
         val verifier =
             HostnameVerifier { hostname, session -> false }
@@ -45,22 +63,21 @@ class MainActivity : AppCompatActivity() {
             .setDebuggerEnabled(true)
             .build()
 
-        connection = XMPPTCPConnection(config)
-        connection.connect()
-        connection.login()
+        try {
+            connection = XMPPTCPConnection(config)
+            connection.connect()
+            connection.login()
 
-        if (connection.isConnected && connection.isAuthenticated) {
-            val chatManager: ChatManager = ChatManager.getInstanceFor(connection)
-            chatManager.addIncomingListener { from, message, chat -> println("New message from " + from + ": " + message.body) }
-            val jid = JidCreate.entityBareFrom("jsmith@jivesoftware.com")
-            val chat: Chat = chatManager.chatWith(jid)
-            chat.send("Howdy!")
+            if (connection.isConnected && connection.isAuthenticated) {
+                val chatManager: ChatManager = ChatManager.getInstanceFor(connection)
+                chatManager.addIncomingListener { from, message, chat -> println("New message from " + from + ": " + message.body) }
+                val jid = JidCreate.entityBareFrom("vinicius@easify")
+                val chat: Chat = chatManager.chatWith(jid)
+                chat.send("Howdy!")
+            }
+        } catch (error: SmackException) {
+            error.printStackTrace()
         }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        connection.disconnect()
     }
 }
