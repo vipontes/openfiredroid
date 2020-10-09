@@ -3,5 +3,8 @@
     <string name="password">Password</string>
     <string name="user">User</string>
     <string name="input_placeholder">Type your message</string>
+    <string name="contact_name">Contact Name</string>
     <string name="login_error">Login error. Check your credentials and try again.</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="delete">DELETE</string>
 </resources>

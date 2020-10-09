@@ -15,7 +15,6 @@ import br.net.easify.openfiredroid.databinding.FragmentLoginBinding
 import br.net.easify.openfiredroid.model.Login
 import br.net.easify.openfiredroid.viewmodel.LoginViewModel
 
-
 class LoginFragment : Fragment() {
 
     private lateinit var viewModel: LoginViewModel

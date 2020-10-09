@@ -15,7 +15,6 @@ import org.jxmpp.jid.impl.JidCreate
 import java.net.InetAddress
 import javax.net.ssl.HostnameVerifier
 
-
 class XMPP(private var context: Context) {
     val PORT = 5222
     val HOST = "192.168.0.17"
@@ -61,11 +60,14 @@ class XMPP(private var context: Context) {
     }
 
     fun isConnected(): Boolean {
-        return this::connection.isInitialized && connection.isConnected
+        return this::connection.isInitialized &&
+                connection.isConnected
     }
 
     fun isLoggedIn(): Boolean {
-        return this::connection.isInitialized && connection.isConnected && connection.isAuthenticated
+        return this::connection.isInitialized &&
+                connection.isConnected &&
+                connection.isAuthenticated
     }
 
     private fun getConnection(): XMPPTCPConnection {
@@ -118,5 +120,4 @@ class XMPP(private var context: Context) {
             }
         }
     }
-
 }
