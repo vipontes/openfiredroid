@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 //        val action = LoginFragmentDirections.actionLogin()
 //        navController.navigate(action)
 
-        // https://stackoverflow.com/questions/43143359/error-on-smack-4-2-0-in-aaaa-yielded-an-error-response-nx-domain
         val addr: InetAddress = InetAddress.getByName("192.168.0.17")
         val verifier =
             HostnameVerifier { hostname, session -> false }
