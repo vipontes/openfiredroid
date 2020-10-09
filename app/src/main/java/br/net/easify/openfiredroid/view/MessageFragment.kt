@@ -1,15 +1,16 @@
 package br.net.easify.openfiredroid.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import br.net.easify.openfiredroid.R
-import kotlinx.android.synthetic.main.fragment_message.*
+import br.net.easify.openfiredroid.viewmodel.MessageViewModel
 
 class MessageFragment : Fragment() {
+    private lateinit var viewModel: MessageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,6 +22,9 @@ class MessageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this).get(MessageViewModel::class.java)
+
 
 //        profile.setOnClickListener {
 //            val action = MessageFragmentDirections.actionLeaveMessage()

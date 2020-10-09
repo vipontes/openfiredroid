@@ -1,4 +1,18 @@
 package br.net.easify.openfiredroid.viewmodel
 
-class LoginViewModel {
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import br.net.easify.openfiredroid.MainApplication
+import br.net.easify.openfiredroid.database.AppDatabase
+import javax.inject.Inject
+
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
+
+    @Inject
+    lateinit var database: AppDatabase
+
+    init {
+        (getApplication() as MainApplication).getAppComponent()?.inject(this)
+    }
+
 }

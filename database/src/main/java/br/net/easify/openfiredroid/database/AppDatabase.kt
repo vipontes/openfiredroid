@@ -7,16 +7,19 @@ import androidx.room.RoomDatabase
 import br.net.easify.openfiredroid.database.dao.*
 import br.net.easify.openfiredroid.database.model.*
 
-
 @Database(
     entities = [
-        User::class
+        User::class,
+        Contact::class,
+        Chat::class
     ],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+    abstract fun contactDao(): ContactDao
+    abstract fun chatDao(): ChatDao
 
     companion object {
         private var instance: AppDatabase? = null

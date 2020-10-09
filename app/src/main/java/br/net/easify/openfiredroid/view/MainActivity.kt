@@ -1,6 +1,8 @@
 package br.net.easify.openfiredroid.view
 
+import android.R.attr
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -12,6 +14,8 @@ import org.jivesoftware.smack.ConnectionConfiguration
 import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
+import org.jivesoftware.smack.roster.Roster
+import org.jivesoftware.smack.roster.RosterEntry
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
 import org.jxmpp.jid.impl.JidCreate
@@ -78,6 +82,5 @@ class MainActivity : AppCompatActivity() {
         } catch (error: SmackException) {
             error.printStackTrace()
         }
-
     }
 }

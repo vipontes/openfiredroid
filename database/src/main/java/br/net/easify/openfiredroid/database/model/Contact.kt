@@ -3,11 +3,10 @@ package br.net.easify.openfiredroid.database.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "user")
-data class User(
+@Entity(tableName = "contact")
+data class Contact(
 
     @PrimaryKey(autoGenerate = true)
-    var user_id: Long = 0,
-    var user_name: String,
-    var password: String
+    var contact_id: Long = 0,
+    var contact_name: String
 )
