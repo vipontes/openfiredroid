@@ -4,6 +4,7 @@ import android.app.Application
 import br.net.easify.openfiredroid.di.component.AppComponent
 import br.net.easify.openfiredroid.di.component.DaggerAppComponent
 import br.net.easify.openfiredroid.di.module.AppModule
+import br.net.easify.openfiredroid.xmpp.XMPP
 
 class MainApplication : Application() {
 
@@ -17,5 +18,10 @@ class MainApplication : Application() {
 
     fun getAppComponent(): AppComponent? {
         return appComponent
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        XMPP.getXmpp(this)?.close()
     }
 }

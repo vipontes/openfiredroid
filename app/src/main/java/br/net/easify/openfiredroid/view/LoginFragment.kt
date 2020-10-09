@@ -1,33 +1,44 @@
 package br.net.easify.openfiredroid.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import br.net.easify.openfiredroid.R
 import br.net.easify.openfiredroid.databinding.FragmentLoginBinding
+import br.net.easify.openfiredroid.model.Login
 import br.net.easify.openfiredroid.viewmodel.LoginViewModel
-import kotlinx.android.synthetic.main.fragment_login.*
+
 
 class LoginFragment : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
     private lateinit var dataBinding: FragmentLoginBinding
+    private lateinit var login: Login
 
-    private val userObserver = Observer<String> { data: String ->
+    private val loginObserver = Observer<Login> { data: Login ->
         data.let {
-            dataBinding.user = it
+            login = it
+            dataBinding.login = login
         }
     }
 
-    private val passwordObserver = Observer<String> { data: String ->
+    private val serverOnObserver = Observer<Boolean> { data: Boolean ->
         data.let {
-            dataBinding.password = it
+            if ( it ) {
+                val action = LoginFragmentDirections.actionLogin()
+                Navigation.findNavController(dataBinding.loginButton).navigate(action)
+            } else {
+                Toast.makeText(requireContext(),
+                    getString(R.string.login_error),
+                    Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -43,21 +54,16 @@ class LoginFragment : Fragment() {
         )
 
         viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        viewModel.user.observe(viewLifecycleOwner, userObserver)
-        viewModel.password.observe(viewLifecycleOwner, passwordObserver)
+        viewModel.login.observe(viewLifecycleOwner, loginObserver)
+        viewModel.serverOn.observe(viewLifecycleOwner, serverOnObserver)
 
         return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        login.setOnClickListener {
-//            val action = LoginFragmentDirections.actionLogin()
-//            Navigation.findNavController(it).navigate(action)
-
+        dataBinding.loginButton.setOnClickListener {
             viewModel.login()
         }
     }
-
 }

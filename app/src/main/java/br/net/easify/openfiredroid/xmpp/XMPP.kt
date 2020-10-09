@@ -1,5 +1,8 @@
 package br.net.easify.openfiredroid.xmpp
 
+import android.content.Context
+import android.content.Intent
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jivesoftware.smack.ConnectionConfiguration
@@ -13,9 +16,24 @@ import java.net.InetAddress
 import javax.net.ssl.HostnameVerifier
 
 
-class XMPP {
+class XMPP(private var context: Context) {
     val PORT = 5222
     val HOST = "192.168.0.17"
+
+    companion object {
+        private var instance: XMPP? = null
+        fun getXmpp(context: Context): XMPP? {
+            if (instance == null) {
+                synchronized(XMPP::class) {
+                    instance = XMPP(context)
+                }
+            }
+            return instance
+        }
+
+        val serverOn = "XMPP Server On"
+        val loginError  = "XMPP Server Login Error"
+    }
 
     private lateinit var connection: XMPPTCPConnection
 
@@ -68,19 +86,26 @@ class XMPP {
 
     fun login(user: String, password: String) {
         GlobalScope.launch {
+            val broadcastManager =
+                LocalBroadcastManager.getInstance(context)
             try {
                 val connect = getConnection()
                 if (!connect.isAuthenticated) {
                     connection.login(user, password)
                 }
+
+                broadcastManager.sendBroadcast(Intent(serverOn))
             } catch (error: SmackException) {
                 error.printStackTrace()
+                broadcastManager.sendBroadcast(Intent(loginError))
+            } catch (error: IllegalArgumentException) {
+                error.printStackTrace()
+                broadcastManager.sendBroadcast(Intent(loginError))
             }
         }
     }
 
     fun sendMessage() {
-
         if (this::connection.isInitialized &&
             connection.isConnected &&
             connection.isAuthenticated) {

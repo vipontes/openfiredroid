@@ -5,12 +5,8 @@
 
     <data>
         <variable
-            name="user"
-            type="String" />
-
-        <variable
-            name="password"
-            type="String" />
+            name="login"
+            type="br.net.easify.openfiredroid.model.Login" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +37,7 @@
                 app:passwordToggleTint="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:text="@={user}"
+                    android:text="@={login.userName}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/user"
@@ -55,7 +51,7 @@
                 app:passwordToggleTint="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:text="@={password}"
+                    android:text="@={login.password}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
@@ -63,7 +59,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/login"
+                android:id="@+id/loginButton"
                 style="@style/loginButton"
                 android:layout_gravity="right"
                 android:layout_marginTop="20dp"
