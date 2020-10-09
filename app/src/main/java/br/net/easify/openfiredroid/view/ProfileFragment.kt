@@ -24,14 +24,14 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        backToLogin.setOnClickListener {
-            val action = ProfileFragmentDirections.actionLogout()
-            Navigation.findNavController(it).navigate(action)
-        }
-
-        backToContact.setOnClickListener {
-            val action = ProfileFragmentDirections.actionLeaveProfile()
-            Navigation.findNavController(it).navigate(action)
-        }
+//        backToLogin.setOnClickListener {
+//            val action = ProfileFragmentDirections.actionLogout()
+//            Navigation.findNavController(it).navigate(action)
+//        }
+//
+//        backToContact.setOnClickListener {
+//            val action = ProfileFragmentDirections.actionLeaveProfile()
+//            Navigation.findNavController(it).navigate(action)
+//        }
     }
 }

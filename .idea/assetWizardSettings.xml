@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/details/baseline_details_24.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material/icons/materialicons/send/baseline_send_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_details" />
+                            <entry key="outputName" value="ic_send" />
                           </map>
                         </option>
                       </PersistentState>

@@ -22,9 +22,9 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        profile.setOnClickListener {
-            val action = MessageFragmentDirections.actionLeaveMessage()
-            Navigation.findNavController(it).navigate(action)
-        }
+//        profile.setOnClickListener {
+//            val action = MessageFragmentDirections.actionLeaveMessage()
+//            Navigation.findNavController(it).navigate(action)
+//        }
     }
 }

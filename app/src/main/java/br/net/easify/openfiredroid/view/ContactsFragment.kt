@@ -22,15 +22,15 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        messages.setOnClickListener {
-            val action = ContactsFragmentDirections.actionViewMessage()
-            Navigation.findNavController(it).navigate(action)
-        }
-
-        profile.setOnClickListener {
-            val action = ContactsFragmentDirections.actionViewProfile()
-            Navigation.findNavController(it).navigate(action)
-        }
+//        messages.setOnClickListener {
+//            val action = ContactsFragmentDirections.actionViewMessage()
+//            Navigation.findNavController(it).navigate(action)
+//        }
+//
+//        profile.setOnClickListener {
+//            val action = ContactsFragmentDirections.actionViewProfile()
+//            Navigation.findNavController(it).navigate(action)
+//        }
     }
 
 
