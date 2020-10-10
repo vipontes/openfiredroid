@@ -3,17 +3,21 @@ package br.net.easify.openfiredroid.xmpp
 import android.content.Context
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import br.net.easify.openfiredroid.database.model.Contact
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jivesoftware.smack.ConnectionConfiguration
 import org.jivesoftware.smack.SmackException
 import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
+import org.jivesoftware.smack.roster.Roster
+import org.jivesoftware.smack.roster.RosterEntry
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
 import org.jxmpp.jid.impl.JidCreate
 import java.net.InetAddress
 import javax.net.ssl.HostnameVerifier
+
 
 class XMPP(private var context: Context) {
     val PORT = 5222
@@ -31,7 +35,7 @@ class XMPP(private var context: Context) {
         }
 
         val serverOn = "XMPP Server On"
-        val loginError  = "XMPP Server Login Error"
+        val loginError = "XMPP Server Login Error"
     }
 
     private lateinit var connection: XMPPTCPConnection
@@ -59,12 +63,12 @@ class XMPP(private var context: Context) {
         }
     }
 
-    fun isConnected(): Boolean {
+    private fun isConnected(): Boolean {
         return this::connection.isInitialized &&
                 connection.isConnected
     }
 
-    fun isLoggedIn(): Boolean {
+    private fun isLoggedIn(): Boolean {
         return this::connection.isInitialized &&
                 connection.isConnected &&
                 connection.isAuthenticated
@@ -72,7 +76,7 @@ class XMPP(private var context: Context) {
 
     private fun getConnection(): XMPPTCPConnection {
         if (isConnected()) {
-            return this.connection;
+            return this.connection
         }
 
         if (this::connection.isInitialized) {
@@ -107,10 +111,28 @@ class XMPP(private var context: Context) {
         }
     }
 
+    fun rostes(): List<Contact> {
+        var contacts: ArrayList<Contact> = arrayListOf()
+
+        if (isLoggedIn()) {
+            val roster = Roster.getInstanceFor(connection)
+            val entries: Collection<RosterEntry> = roster.entries
+            for (entry in entries) {
+                contacts.add(
+                    Contact(0,
+                        entry.jid.localpartOrNull.toString(),
+                        entry.jid.toString()))
+            }
+        }
+
+        return contacts
+    }
+
     fun sendMessage() {
         if (this::connection.isInitialized &&
             connection.isConnected &&
-            connection.isAuthenticated) {
+            connection.isAuthenticated
+        ) {
             GlobalScope.launch {
                 val chatManager: ChatManager = ChatManager.getInstanceFor(connection)
                 chatManager.addIncomingListener { from, message, chat -> println("New message from " + from + ": " + message.body) }

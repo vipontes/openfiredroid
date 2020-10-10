@@ -21,7 +21,6 @@ interface AppComponent {
     fun inject(app: MainApplication)
 
     fun inject(viewModel: MainViewModel)
-
     fun inject(viewModel: LoginViewModel)
     fun inject(viewModel: ContactsViewModel)
     fun inject(viewModel: MessageViewModel)

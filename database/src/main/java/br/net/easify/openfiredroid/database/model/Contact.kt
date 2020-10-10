@@ -8,5 +8,6 @@ data class Contact(
 
     @PrimaryKey(autoGenerate = true)
     var contact_id: Long = 0,
-    var contact_name: String
+    var contact_name: String,
+    var contact_jid: String
 )

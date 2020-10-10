@@ -1,6 +1,8 @@
 package br.net.easify.openfiredroid.view
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -31,5 +33,23 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.userAlreadyLogged.observe(this, userAlreadyLoggedObserver)
         viewModel.checkLoggedUser()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.exit -> {
+                val action = ContactsFragmentDirections.actionLogout()
+                navController.navigate(action)
+                viewModel.logout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

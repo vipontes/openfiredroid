@@ -15,6 +15,9 @@ interface ContactDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(contact: Contact): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(contacts: List<Contact>)
+
     @Query("DELETE FROM contact WHERE contact_id = :contact_id")
     fun delete(contact_id: Long)
 

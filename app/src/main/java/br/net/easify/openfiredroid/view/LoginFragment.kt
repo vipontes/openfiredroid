@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import br.net.easify.openfiredroid.R
 import br.net.easify.openfiredroid.databinding.FragmentLoginBinding
 import br.net.easify.openfiredroid.model.Login
 import br.net.easify.openfiredroid.viewmodel.LoginViewModel
+
 
 class LoginFragment : Fragment() {
 
@@ -34,9 +36,11 @@ class LoginFragment : Fragment() {
                 val action = LoginFragmentDirections.actionLogin()
                 Navigation.findNavController(dataBinding.loginButton).navigate(action)
             } else {
-                Toast.makeText(requireContext(),
+                Toast.makeText(
+                    requireContext(),
                     getString(R.string.login_error),
-                    Toast.LENGTH_LONG).show()
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -45,6 +49,8 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
         dataBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_login,

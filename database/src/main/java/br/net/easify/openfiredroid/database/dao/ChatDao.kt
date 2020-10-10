@@ -14,6 +14,9 @@ interface ChatDao {
     @Query("DELETE FROM chat WHERE chat_id = :chat_id")
     fun delete(chat_id: Long)
 
+    @Query("DELETE FROM chat")
+    fun deleteAll()
+
     @Query("DELETE FROM chat WHERE contact_id = :contact_id")
     fun deleteChatFromContact(contact_id: Long)
 }

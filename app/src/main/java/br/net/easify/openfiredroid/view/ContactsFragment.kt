@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -29,10 +31,18 @@ class ContactsFragment : Fragment(), ContactsAdapter.OnItemClick,
     private lateinit var dataBinding: FragmentContactsBinding
     private lateinit var contactsAdapter: ContactsAdapter
 
+    private val contactsObserver = Observer<List<Contact>> { data: List<Contact> ->
+        data.let {
+            contactsAdapter.updateContacts(it)
+            dataBinding.swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         dataBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_contacts,
@@ -106,6 +116,7 @@ class ContactsFragment : Fragment(), ContactsAdapter.OnItemClick,
         itemTouchHelper.attachToRecyclerView(contacts)
 
         viewModel = ViewModelProviders.of(this).get(ContactsViewModel::class.java)
+        viewModel.contacts.observe(viewLifecycleOwner, contactsObserver)
     }
 
     override fun onItemClick(contact: Contact) {
@@ -118,6 +129,6 @@ class ContactsFragment : Fragment(), ContactsAdapter.OnItemClick,
     }
 
     override fun onRefresh() {
-        dataBinding.swipeRefreshLayout.isRefreshing = false
+        viewModel.loadContacts()
     }
 }

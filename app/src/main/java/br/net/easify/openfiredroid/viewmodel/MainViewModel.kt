@@ -29,4 +29,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    fun logout() {
+        database.contactDao().deleteAll()
+        database.userDao().delete()
+        database.chatDao().deleteAll()
+        XMPP.getXmpp(getApplication())?.close()
+    }
 }
