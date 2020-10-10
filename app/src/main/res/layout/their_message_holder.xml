@@ -1,46 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="10dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="50dp"
-    android:clipToPadding="false">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="chatMessage"
+            type="br.net.easify.openfiredroid.database.model.Chat" />
+    </data>
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/imgUser"
-        android:layout_alignTop="@+id/imgUser"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="1dp"
-        android:textStyle="bold"
-        android:textSize="16dp"
-        android:text="My Friend"/>
+        android:clipToPadding="false"
+        android:paddingVertical="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="50dp">
 
-    <TextView
-        android:id="@+id/message_date"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10dp"
-        android:text="00/00/0000"/>
+        <TextView
+            android:id="@+id/message_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:text="@{chatMessage.date}"
+            android:textSize="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/message_body"
-        android:layout_below="@+id/message_date"
-        android:layout_alignLeft="@+id/name"
-        android:background="@drawable/their_message"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="16dp"
-        android:elevation="2dp"
-        android:textSize="18dp"
-        android:textColor="@color/colorLight"
-        android:text="How are you doing? This is a long message that should probably wrap."
-        />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/message_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_date"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/their_message"
+            android:elevation="2dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:text="@{chatMessage.message}"
+            android:textColor="@color/colorLight"
+            android:textSize="18dp" />
+    </RelativeLayout>
+</layout>

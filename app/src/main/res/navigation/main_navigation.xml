@@ -55,6 +55,10 @@
             app:exitAnim="@anim/slide_out_to_left"
             app:popUpTo="@+id/main_navigation"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="contactId"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

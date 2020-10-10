@@ -120,7 +120,7 @@ class ContactsFragment : Fragment(), ContactsAdapter.OnItemClick,
     }
 
     override fun onItemClick(contact: Contact) {
-        val action = ContactsFragmentDirections.actionViewMessage()
+        val action = ContactsFragmentDirections.actionViewMessage(contact.contact_id)
         Navigation.findNavController(contacts).navigate(action)
     }
 

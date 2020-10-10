@@ -20,8 +20,8 @@ import javax.net.ssl.HostnameVerifier
 
 
 class XMPP(private var context: Context) {
-    val PORT = 5222
-    val HOST = "192.168.0.17"
+    private val port = 5222
+    private val host = "192.168.0.17"
 
     companion object {
         private var instance: XMPP? = null
@@ -34,21 +34,21 @@ class XMPP(private var context: Context) {
             return instance
         }
 
-        val serverOn = "XMPP Server On"
-        val loginError = "XMPP Server Login Error"
+        const val serverOn = "XMPP Server On"
+        const val loginError = "XMPP Server Login Error"
     }
 
     private lateinit var connection: XMPPTCPConnection
 
     private fun buildConfiguration(): XMPPTCPConnectionConfiguration {
-        val addr: InetAddress = InetAddress.getByName(HOST)
+        val addr: InetAddress = InetAddress.getByName(host)
         val verifier =
             HostnameVerifier { hostname, session -> false }
 
-        val serviceName = JidCreate.domainBareFrom(HOST)
+        val serviceName = JidCreate.domainBareFrom(host)
 
         return XMPPTCPConnectionConfiguration.builder()
-            .setPort(PORT)
+            .setPort(port)
             .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
             .setXmppDomain(serviceName)
             .setHostnameVerifier(verifier)
@@ -111,35 +111,37 @@ class XMPP(private var context: Context) {
         }
     }
 
-    fun rostes(): List<Contact> {
-        var contacts: ArrayList<Contact> = arrayListOf()
+    fun rosters(): List<Contact> {
+        val contacts: ArrayList<Contact> = arrayListOf()
 
         if (isLoggedIn()) {
             val roster = Roster.getInstanceFor(connection)
             val entries: Collection<RosterEntry> = roster.entries
             for (entry in entries) {
-                contacts.add(
-                    Contact(0,
-                        entry.jid.localpartOrNull.toString(),
-                        entry.jid.toString()))
+                val name = entry.jid.localpartOrNull.toString()
+                val jid = entry.jid.toString()
+                if (name.isNotEmpty() && jid.isNotEmpty()) {
+                    contacts.add(Contact(0, name, jid))
+                }
             }
         }
 
         return contacts
     }
 
-    fun sendMessage() {
+    fun sendMessage(userJid: String, message: String) {
         if (this::connection.isInitialized &&
             connection.isConnected &&
             connection.isAuthenticated
         ) {
             GlobalScope.launch {
                 val chatManager: ChatManager = ChatManager.getInstanceFor(connection)
-                chatManager.addIncomingListener { from, message, chat -> println("New message from " + from + ": " + message.body) }
-                val jid = JidCreate.entityBareFrom("vinicius@easify")
+                val jid = JidCreate.entityBareFrom(userJid)
                 val chat: Chat = chatManager.chatWith(jid)
-                chat.send("Howdy!")
+                chat.send(message)
             }
         }
     }
 }
+
+//chatManager.addIncomingListener { from, message, chat -> println("New message from " + from + ": " + message.body) }

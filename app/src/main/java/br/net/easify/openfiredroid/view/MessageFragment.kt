@@ -11,6 +11,8 @@ import br.net.easify.openfiredroid.R
 import br.net.easify.openfiredroid.viewmodel.MessageViewModel
 
 class MessageFragment : Fragment() {
+    private var contactId = 0L
+
     private lateinit var viewModel: MessageViewModel
 
     override fun onCreateView(
@@ -18,6 +20,11 @@ class MessageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+
+        arguments?.let {
+            this.contactId = MessageFragmentArgs.fromBundle(it).contactId
+        }
+
         return inflater.inflate(R.layout.fragment_message, container, false)
     }
 
@@ -26,10 +33,6 @@ class MessageFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(MessageViewModel::class.java)
 
-
-//        profile.setOnClickListener {
-//            val action = MessageFragmentDirections.actionLeaveMessage()
-//            Navigation.findNavController(it).navigate(action)
-//        }
+        viewModel.loadChat(this.contactId)
     }
 }

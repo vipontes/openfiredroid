@@ -28,15 +28,5 @@ class ProfileFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
 
-
-//        backToLogin.setOnClickListener {
-//            val action = ProfileFragmentDirections.actionLogout()
-//            Navigation.findNavController(it).navigate(action)
-//        }
-//
-//        backToContact.setOnClickListener {
-//            val action = ProfileFragmentDirections.actionLeaveProfile()
-//            Navigation.findNavController(it).navigate(action)
-//        }
     }
 }
