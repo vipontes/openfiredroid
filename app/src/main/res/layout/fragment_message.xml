@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="chat"
+            type="br.net.easify.openfiredroid.database.model.Chat" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,15 +30,15 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
+                android:maxLength="1024"
+                android:maxLines="6"
                 android:hint="@string/input_placeholder"
-                android:inputType="text"
+                android:inputType="textCapSentences|textMultiLine"
                 android:paddingHorizontal="10dp"
-                android:text="" />
+                android:text="@={chat.message}" />
 
             <ImageButton
                 android:id="@+id/sendMessage"
