@@ -1,9 +1,18 @@
 package br.net.easify.openfiredroid.xmpp
 
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import br.net.easify.openfiredroid.R
 import br.net.easify.openfiredroid.database.model.Contact
+import br.net.easify.openfiredroid.util.Constants
+import br.net.easify.openfiredroid.view.MainActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jivesoftware.smack.ConnectionConfiguration
@@ -36,6 +45,9 @@ class XMPP(private var context: Context) {
 
         const val serverOn = "XMPP Server On"
         const val loginError = "XMPP Server Login Error"
+        const val newMessage = "New Message"
+
+        var notificationId = 100
     }
 
     private lateinit var connection: XMPPTCPConnection
@@ -98,6 +110,7 @@ class XMPP(private var context: Context) {
                 val connect = getConnection()
                 if (!connect.isAuthenticated) {
                     connection.login(user, password)
+                    startListener()
                 }
 
                 broadcastManager.sendBroadcast(Intent(serverOn))
@@ -142,6 +155,24 @@ class XMPP(private var context: Context) {
             }
         }
     }
-}
 
-//chatManager.addIncomingListener { from, message, chat -> println("New message from " + from + ": " + message.body) }
+    private fun startListener() {
+
+        val chatManager: ChatManager = ChatManager.getInstanceFor(connection)
+        chatManager.addIncomingListener { from, message, chat ->
+
+            val messageContact = from.localpart.toString()
+            val messageBody = message.body
+
+            Log.e("XMPP_MES", "$messageContact: $messageBody")
+
+            val broadcastManager =
+                LocalBroadcastManager.getInstance(context)
+            val intent = Intent(newMessage)
+            intent.putExtra("messageContact", messageContact)
+            intent.putExtra("messageBody", messageBody)
+            broadcastManager.sendBroadcast(intent)
+        }
+    }
+
+}

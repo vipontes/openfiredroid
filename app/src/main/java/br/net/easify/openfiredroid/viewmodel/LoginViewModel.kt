@@ -12,6 +12,8 @@ import br.net.easify.openfiredroid.MainApplication
 import br.net.easify.openfiredroid.database.AppDatabase
 import br.net.easify.openfiredroid.database.model.User
 import br.net.easify.openfiredroid.model.Login
+import br.net.easify.openfiredroid.service.MessageService
+import br.net.easify.openfiredroid.util.ServiceHelper
 import br.net.easify.openfiredroid.xmpp.XMPP
 import javax.inject.Inject
 
@@ -23,11 +25,20 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     @Inject
     lateinit var database: AppDatabase
 
+    @Inject
+    lateinit var serviceHelper: ServiceHelper
+
     private val onServerOn: BroadcastReceiver =
         object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 serverOn.value = true
                 saveLoginCredentials()
+
+//                val messageService = MessageService()
+//                val intent = Intent(getApplication(), messageService::class.java)
+//                if (!serviceHelper.isMyServiceRunning(messageService::class.java)) {
+//                    (getApplication() as MainApplication).startService(intent)
+//                }
             }
         }
 
@@ -56,6 +67,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             val userName = it.userName
             val password = it.password
             database.userDao().delete()
+            database.chatDao().deleteAll()
+            database.contactDao().deleteAll()
             database.userDao().insert(User(0, userName, password))
         }
     }

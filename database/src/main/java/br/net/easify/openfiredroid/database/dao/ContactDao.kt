@@ -12,6 +12,9 @@ interface ContactDao {
     @Query("SELECT * FROM contact WHERE contact_id = :contact_id")
     fun get(contact_id: Long): Contact
 
+    @Query("SELECT * FROM contact WHERE contact_name = :contact_name LIMIT 1")
+    fun getContactFromName(contact_name: String): Contact?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(contact: Contact): Long
 

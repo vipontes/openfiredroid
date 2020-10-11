@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import br.net.easify.openfiredroid.R
 import br.net.easify.openfiredroid.viewmodel.MainViewModel
+import br.net.easify.openfiredroid.xmpp.XMPP
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -44,9 +45,11 @@ class MainActivity : AppCompatActivity() {
 
         return when (item.itemId) {
             R.id.exit -> {
+                viewModel.logout()
+
                 val action = ContactsFragmentDirections.actionLogout()
                 navController.navigate(action)
-                viewModel.logout()
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
