@@ -13,7 +13,6 @@ import br.net.easify.openfiredroid.database.AppDatabase
 import br.net.easify.openfiredroid.database.model.Chat
 import br.net.easify.openfiredroid.database.model.Contact
 import br.net.easify.openfiredroid.util.Formatter
-import br.net.easify.openfiredroid.util.NotificationHelper
 import br.net.easify.openfiredroid.xmpp.XMPP
 import javax.inject.Inject
 

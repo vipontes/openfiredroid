@@ -44,27 +44,29 @@ class MessageService : Service(), IncomingChatMessageListener {
             connection = XMPP.getXmpp(application)!!
         }
 
-        chatManager = ChatManager.getInstanceFor(connection.getConnection())
-        chatManager.addIncomingListener(this)
+        if ( connection.isConnected() ) {
+            chatManager = ChatManager.getInstanceFor(connection.getConnection())
+            chatManager.addIncomingListener(this)
 
-        try {
-            if ( !connection.isLoggedIn() ) {
-                val loggedUser = database.userDao().getLoggedUser()
-                loggedUser?.let {
-                    connection.let { conn ->
-                        conn.login(it.user_name, it.password)
+            try {
+                if (!connection.isLoggedIn()) {
+                    val loggedUser = database.userDao().getLoggedUser()
+                    loggedUser?.let {
+                        connection.let { conn ->
+                            conn.login(it.user_name, it.password)
+                        }
                     }
                 }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                stopSelf()
+            } catch (e: SmackException) {
+                e.printStackTrace()
+                stopSelf()
+            } catch (e: XMPPException) {
+                e.printStackTrace()
+                stopSelf()
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            stopSelf()
-        } catch (e: SmackException) {
-            e.printStackTrace()
-            stopSelf()
-        } catch (e: XMPPException) {
-            e.printStackTrace()
-            stopSelf()
         }
     }
 

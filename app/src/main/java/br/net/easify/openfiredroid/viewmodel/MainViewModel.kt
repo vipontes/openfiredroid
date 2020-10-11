@@ -73,8 +73,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun logout() {
         database.userDao().delete()
-//        database.chatDao().deleteAll()
-//        database.contactDao().deleteAll()
+        database.chatDao().deleteAll()
+        database.contactDao().deleteAll()
         XMPP.getXmpp(getApplication())?.close()
     }
 
