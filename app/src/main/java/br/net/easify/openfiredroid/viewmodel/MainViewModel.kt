@@ -66,7 +66,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (userName.isNotEmpty() && password.isNotEmpty()) {
                 userAlreadyLogged.value = true
                 XMPP.getXmpp(getApplication())?.login(userName, password)
-                startMessageService()
+                restartMessageService()
             }
         }
     }
@@ -75,6 +75,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         database.userDao().delete()
         database.chatDao().deleteAll()
         database.contactDao().deleteAll()
+        stopMessageService()
         XMPP.getXmpp(getApplication())?.close()
     }
 
@@ -84,5 +85,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (!serviceHelper.isMyServiceRunning(messageService::class.java)) {
             (getApplication() as MainApplication).startService(intent)
         }
+    }
+
+    private fun stopMessageService() {
+        val messageService = MessageService()
+        val intent = Intent(getApplication(), messageService::class.java)
+        if (serviceHelper.isMyServiceRunning(messageService::class.java)) {
+            (getApplication() as MainApplication).stopService(intent)
+        }
+    }
+
+    private fun restartMessageService() {
+        stopMessageService()
+        startMessageService()
     }
 }
