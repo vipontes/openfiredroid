@@ -11,8 +11,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import br.net.easify.openfiredroid.MainApplication
 import br.net.easify.openfiredroid.database.AppDatabase
 import br.net.easify.openfiredroid.database.model.Chat
+import br.net.easify.openfiredroid.service.MessageService
 import br.net.easify.openfiredroid.util.Formatter
 import br.net.easify.openfiredroid.util.NotificationHelper
+import br.net.easify.openfiredroid.util.ServiceHelper
 import br.net.easify.openfiredroid.xmpp.XMPP
 import javax.inject.Inject
 
@@ -21,6 +23,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     @Inject
     lateinit var database: AppDatabase
+
+    @Inject
+    lateinit var serviceHelper: ServiceHelper
 
     private val onNewMessage: BroadcastReceiver =
         object : BroadcastReceiver() {
@@ -61,14 +66,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (userName.isNotEmpty() && password.isNotEmpty()) {
                 userAlreadyLogged.value = true
                 XMPP.getXmpp(getApplication())?.login(userName, password)
+                startMessageService()
             }
         }
     }
 
     fun logout() {
         database.userDao().delete()
-        database.chatDao().deleteAll()
-        database.contactDao().deleteAll()
+//        database.chatDao().deleteAll()
+//        database.contactDao().deleteAll()
         XMPP.getXmpp(getApplication())?.close()
+    }
+
+    private fun startMessageService() {
+        val messageService = MessageService()
+        val intent = Intent(getApplication(), messageService::class.java)
+        if (!serviceHelper.isMyServiceRunning(messageService::class.java)) {
+            (getApplication() as MainApplication).startService(intent)
+        }
     }
 }

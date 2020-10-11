@@ -46,8 +46,6 @@ class XMPP(private var context: Context) {
         const val serverOn = "XMPP Server On"
         const val loginError = "XMPP Server Login Error"
         const val newMessage = "New Message"
-
-        var notificationId = 100
     }
 
     private lateinit var connection: XMPPTCPConnection
@@ -75,23 +73,23 @@ class XMPP(private var context: Context) {
         }
     }
 
-    private fun isConnected(): Boolean {
+    fun isConnected(): Boolean {
         return this::connection.isInitialized &&
                 connection.isConnected
     }
 
-    private fun isLoggedIn(): Boolean {
+    fun isLoggedIn(): Boolean {
         return this::connection.isInitialized &&
                 connection.isConnected &&
                 connection.isAuthenticated
     }
 
-    private fun getConnection(): XMPPTCPConnection {
+    fun getConnection(): XMPPTCPConnection {
         if (isConnected()) {
             return this.connection
         }
 
-        if (this::connection.isInitialized) {
+        if (this::connection.isInitialized && !this.connection.isConnected) {
             connection.connect()
         } else {
             val config = buildConfiguration()
@@ -110,7 +108,6 @@ class XMPP(private var context: Context) {
                 val connect = getConnection()
                 if (!connect.isAuthenticated) {
                     connection.login(user, password)
-                    startListener()
                 }
 
                 broadcastManager.sendBroadcast(Intent(serverOn))
@@ -155,24 +152,4 @@ class XMPP(private var context: Context) {
             }
         }
     }
-
-    private fun startListener() {
-
-        val chatManager: ChatManager = ChatManager.getInstanceFor(connection)
-        chatManager.addIncomingListener { from, message, chat ->
-
-            val messageContact = from.localpart.toString()
-            val messageBody = message.body
-
-            Log.e("XMPP_MES", "$messageContact: $messageBody")
-
-            val broadcastManager =
-                LocalBroadcastManager.getInstance(context)
-            val intent = Intent(newMessage)
-            intent.putExtra("messageContact", messageContact)
-            intent.putExtra("messageBody", messageBody)
-            broadcastManager.sendBroadcast(intent)
-        }
-    }
-
 }

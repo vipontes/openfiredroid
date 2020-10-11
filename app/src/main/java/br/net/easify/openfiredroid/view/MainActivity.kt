@@ -10,7 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import br.net.easify.openfiredroid.R
 import br.net.easify.openfiredroid.viewmodel.MainViewModel
-import br.net.easify.openfiredroid.xmpp.XMPP
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -19,8 +18,10 @@ class MainActivity : AppCompatActivity() {
     private val userAlreadyLoggedObserver = Observer<Boolean> { data: Boolean ->
         data.let {
             if ( it ) {
-                val action = LoginFragmentDirections.actionLogin()
-                navController.navigate(action)
+                if (navController.graph.startDestination == navController.currentDestination?.id) {
+                    val action = LoginFragmentDirections.actionLogin()
+                    navController.navigate(action)
+                }
             }
         }
     }
@@ -33,6 +34,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.userAlreadyLogged.observe(this, userAlreadyLoggedObserver)
+        viewModel.checkLoggedUser()
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.checkLoggedUser()
     }
 

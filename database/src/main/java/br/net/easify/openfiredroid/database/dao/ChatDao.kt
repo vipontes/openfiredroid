@@ -8,7 +8,7 @@ interface ChatDao {
     @Query("SELECT * FROM chat WHERE contact_id = :contact_id ORDER BY chat_id")
     fun getChatFromContact(contact_id: Long): List<Chat>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(chat: Chat): Long
 
     @Query("DELETE FROM chat WHERE chat_id = :chat_id")

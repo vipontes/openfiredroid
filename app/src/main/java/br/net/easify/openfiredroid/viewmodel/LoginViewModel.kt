@@ -33,12 +33,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             override fun onReceive(context: Context, intent: Intent) {
                 serverOn.value = true
                 saveLoginCredentials()
-
-//                val messageService = MessageService()
-//                val intent = Intent(getApplication(), messageService::class.java)
-//                if (!serviceHelper.isMyServiceRunning(messageService::class.java)) {
-//                    (getApplication() as MainApplication).startService(intent)
-//                }
+                startMessageService()
             }
         }
 
@@ -66,10 +61,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         login.value?.let {
             val userName = it.userName
             val password = it.password
-            database.userDao().delete()
-            database.chatDao().deleteAll()
-            database.contactDao().deleteAll()
-            database.userDao().insert(User(0, userName, password))
+            if (userName.isNotEmpty() && password.isNotEmpty()) {
+                database.userDao().delete()
+                database.userDao().insert(User(0, userName, password))
+            }
         }
     }
 
@@ -78,6 +73,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             val userName = it.userName
             val password = it.password
             XMPP.getXmpp(getApplication())?.login(userName, password)
+        }
+    }
+
+    private fun startMessageService() {
+        val messageService = MessageService()
+        val intent = Intent(getApplication(), messageService::class.java)
+        if (!serviceHelper.isMyServiceRunning(messageService::class.java)) {
+            (getApplication() as MainApplication).startService(intent)
         }
     }
 }
