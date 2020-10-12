@@ -88,7 +88,7 @@ Start Openfire console and create some users:
 
 I downloaded (Spark)[https://www.igniterealtime.org/downloads/], a small desktop client, to test my users:
 
-![](images/openfire-users.png)
+![](images/spark.png)
 
 ## OpenfireDroid
 
