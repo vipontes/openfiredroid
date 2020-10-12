@@ -82,7 +82,9 @@ sudo ufw allow $i; done
 
 Now you shoud have your Openfire server running at: http://127.0.0.1:9090
 
+Start Openfire console and create some users:
 
+![](images/openfire-users.png)
 
 
 ## References
