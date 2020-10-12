@@ -86,6 +86,17 @@ Start Openfire console and create some users:
 
 ![](images/openfire-users.png)
 
+I downloaded (Spark)[https://www.igniterealtime.org/downloads/], a small desktop client, to test my users:
+
+![](images/openfire-users.png)
+
+## OpenfireDroid
+
+The app uses [Smack](https://github.com/igniterealtime/Smack/blob/master/documentation/index.md) to connect to Openfire server and send/receive messages.
+
+Messages are stored into a local SQLite database, but, once you logout, they are lost.
+
+![](images/openfiredroid.png)
 
 ## References
 
